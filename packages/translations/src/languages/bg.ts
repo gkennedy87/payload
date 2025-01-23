@@ -238,6 +238,7 @@ export const bgTranslations: DefaultTranslationsObject = {
     duplicate: 'Дупликирай',
     duplicateWithoutSaving: 'Дупликирай без да запазваш промените',
     edit: 'Редактирай',
+    editAll: 'Редактирай всички',
     editedSince: 'Редактирано от',
     editing: 'Редактиране',
     editingLabel_many: 'Редактиране на {{count}} {{label}}',
@@ -298,6 +299,10 @@ export const bgTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Преиндексиране на всички {{collections}}.',
     remove: 'Премахни',
     reset: 'Нулиране',
+    resetPreferences: 'Нулиране на предпочитанията',
+    resetPreferencesDescription:
+      'Това ще нулира всички ваши предпочитания до техните настройки по подразбиране.',
+    resettingPreferences: 'Нулиране на предпочитанията.',
     row: 'ред',
     rows: 'Редове',
     save: 'Запази',

@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import { slateEditor } from '@payloadcms/richtext-slate'
 
-import { slugPluralLabel, slugSingularLabel } from '../shared.js'
-import { postsCollectionSlug } from '../slugs.js'
+import { customTabAdminDescription, slugPluralLabel, slugSingularLabel } from '../shared.js'
+import { postsCollectionSlug, uploadCollectionSlug } from '../slugs.js'
 
 export const Posts: CollectionConfig = {
   slug: postsCollectionSlug,
@@ -104,6 +104,16 @@ export const Posts: CollectionConfig = {
             },
           ],
           label: 'Tab 1',
+          admin: {
+            description: customTabAdminDescription,
+          },
+        },
+        {
+          label: 'Tab 2',
+          fields: [],
+          admin: {
+            description: () => `t:${customTabAdminDescription}`,
+          },
         },
       ],
     },
@@ -181,6 +191,11 @@ export const Posts: CollectionConfig = {
           Cell: '/components/CustomCell/index.js#CustomCell',
         },
       },
+    },
+    {
+      name: 'upload',
+      type: 'upload',
+      relationTo: uploadCollectionSlug,
     },
     {
       name: 'hiddenField',

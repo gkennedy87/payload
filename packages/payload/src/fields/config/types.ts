@@ -23,6 +23,8 @@ import type {
   BlocksFieldClientProps,
   BlocksFieldErrorClientComponent,
   BlocksFieldErrorServerComponent,
+  BlocksFieldLabelClientComponent,
+  BlocksFieldLabelServerComponent,
   CheckboxFieldClientProps,
   CheckboxFieldErrorClientComponent,
   CheckboxFieldErrorServerComponent,
@@ -714,6 +716,10 @@ export type CollapsibleFieldClient = {
   Pick<CollapsibleField, 'type'>
 
 type TabBase = {
+  /**
+   * @deprecated
+   * Use `admin.description` instead. This will be removed in a future major version.
+   */
   description?: LabelFunction | StaticDescription
   fields: Field[]
   interfaceName?: string
@@ -1335,6 +1341,7 @@ export type BlocksField = {
       afterInput?: CustomComponent[]
       beforeInput?: CustomComponent[]
       Error?: CustomComponent<BlocksFieldErrorClientComponent | BlocksFieldErrorServerComponent>
+      Label?: CustomComponent<BlocksFieldLabelClientComponent | BlocksFieldLabelServerComponent>
     } & Admin['components']
     initCollapsed?: boolean
     /**
@@ -1416,6 +1423,13 @@ export type JoinField = {
    * This does not need to be set and will be overridden by the relationship field's localized property.
    */
   localized?: boolean
+  /**
+   * The maximum allowed depth to be permitted application-wide. This setting helps prevent against malicious queries.
+   *
+   * @see https://payloadcms.com/docs/getting-started/concepts#depth
+   *
+   * @default 1
+   */
   maxDepth?: number
   /**
    * A string for the field in the collection being joined to.

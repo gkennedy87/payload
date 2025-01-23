@@ -235,6 +235,7 @@ export const arTranslations: DefaultTranslationsObject = {
     duplicate: 'استنساخ',
     duplicateWithoutSaving: 'استنساخ بدون حفظ التغييرات',
     edit: 'تعديل',
+    editAll: 'تحرير الكل',
     editedSince: 'تم التحرير منذ',
     editing: 'جاري التعديل',
     editingLabel_many: 'تعديل {{count}} {{label}}',
@@ -295,6 +296,10 @@ export const arTranslations: DefaultTranslationsObject = {
     reindexingAll: 'جاري إعادة فهرسة جميع {{collections}}.',
     remove: 'إزالة',
     reset: 'إعادة تعيين',
+    resetPreferences: 'إعادة تعيين التفضيلات',
+    resetPreferencesDescription:
+      'سيؤدي ذلك إلى إعادة تعيين جميع تفضيلاتك إلى الإعدادات الافتراضية.',
+    resettingPreferences: 'إعادة تعيين التفضيلات.',
     row: 'سطر',
     rows: 'أسطُر',
     save: 'حفظ',

@@ -239,6 +239,7 @@ export const rsLatinTranslations: DefaultTranslationsObject = {
     duplicate: 'Duplikat',
     duplicateWithoutSaving: 'Ponovi bez čuvanja promena',
     edit: 'Uredi',
+    editAll: 'Uredi sve',
     editedSince: 'Izmenjeno od',
     editing: 'Uređivanje',
     editingLabel_many: 'Uređivanje {{count}} {{label}}',
@@ -299,6 +300,10 @@ export const rsLatinTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Ponovno indeksiranje svih {{collections}}.',
     remove: 'Ukloni',
     reset: 'Ponovo postavi',
+    resetPreferences: 'Poništi podešavanja',
+    resetPreferencesDescription:
+      'Ovo će poništiti sva vaša podešavanja na podrazumevane vrednosti.',
+    resettingPreferences: 'Poništavanje podešavanja.',
     row: 'Red',
     rows: 'Redovi',
     save: 'Sačuvaj',

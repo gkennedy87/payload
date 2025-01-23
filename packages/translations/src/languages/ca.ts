@@ -239,6 +239,7 @@ export const caTranslations: DefaultTranslationsObject = {
     duplicate: 'Duplicar',
     duplicateWithoutSaving: 'Duplica sense desar',
     edit: 'Edita',
+    editAll: 'Edita-ho tot',
     editedSince: 'Editat des de',
     editing: 'Editant',
     editingLabel_many: 'Editent {{count}} {{label}}',
@@ -299,6 +300,10 @@ export const caTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Reindexa tots el {{collections}}.',
     remove: 'Elimina',
     reset: 'Restableix',
+    resetPreferences: 'Restablir les preferències',
+    resetPreferencesDescription:
+      'Això restablirà totes les teves preferències a les configuracions per defecte.',
+    resettingPreferences: 'Restablint les preferències.',
     row: 'Fila',
     rows: 'Files',
     save: 'Desa',

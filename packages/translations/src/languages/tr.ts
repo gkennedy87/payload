@@ -242,6 +242,7 @@ export const trTranslations: DefaultTranslationsObject = {
     duplicate: 'Çoğalt',
     duplicateWithoutSaving: 'Ayarları kaydetmeden çoğalt',
     edit: 'Düzenle',
+    editAll: 'Hepsini düzenle',
     editedSince: 'O tarihten itibaren düzenlendi',
     editing: 'Düzenleniyor',
     editingLabel_many: '{{count}} {{label}} düzenleniyor',
@@ -302,6 +303,10 @@ export const trTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Tüm {{collections}} yeniden dizine alınıyor.',
     remove: 'Kaldır',
     reset: 'Sıfırla',
+    resetPreferences: 'Tercihleri sıfırla',
+    resetPreferencesDescription:
+      'Bu, tüm tercihlerinizin varsayılan ayarlara sıfırlanmasını sağlar.',
+    resettingPreferences: 'Tercihler sıfırlanıyor.',
     row: 'Satır',
     rows: 'Satır',
     save: 'Kaydet',

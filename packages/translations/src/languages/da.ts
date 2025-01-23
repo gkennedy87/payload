@@ -237,6 +237,7 @@ export const daTranslations: DefaultTranslationsObject = {
     duplicate: 'Duplikér',
     duplicateWithoutSaving: 'Dupliker uden at gemme ændringer',
     edit: 'Redigere',
+    editAll: 'Rediger alle',
     editedSince: 'Dette dokument er blevet redigeret siden du startede',
     editing: 'Rediger',
     editingLabel_many: 'Rediger {{count}} {{label}}',
@@ -297,6 +298,10 @@ export const daTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Genindekserer alle {{collections}}.',
     remove: 'Fjern',
     reset: 'Nulstil',
+    resetPreferences: 'Nulstil præferencer',
+    resetPreferencesDescription:
+      'Dette vil nulstille alle dine præferencer til standardindstillingerne.',
+    resettingPreferences: 'Nulstiller præferencer.',
     row: 'Række',
     rows: 'Rækker',
     save: 'Gem',

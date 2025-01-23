@@ -239,6 +239,7 @@ export const enTranslations = {
     duplicate: 'Duplicate',
     duplicateWithoutSaving: 'Duplicate without saving changes',
     edit: 'Edit',
+    editAll: 'Edit all',
     editedSince: 'Edited since',
     editing: 'Editing',
     editingLabel_many: 'Editing {{count}} {{label}}',
@@ -299,6 +300,10 @@ export const enTranslations = {
     reindexingAll: 'Reindexing all {{collections}}.',
     remove: 'Remove',
     reset: 'Reset',
+    resetPreferences: 'Reset Preferences',
+    resetPreferencesDescription:
+      'This will reset all of your preferences to their default settings.',
+    resettingPreferences: 'Resetting Preferences.',
     row: 'Row',
     rows: 'Rows',
     save: 'Save',
@@ -371,8 +376,8 @@ export const enTranslations = {
     within: 'within',
   },
   upload: {
-    addFile: 'Add File',
-    addFiles: 'Add Files',
+    addFile: 'Add file',
+    addFiles: 'Add files',
     bulkUpload: 'Bulk Upload',
     crop: 'Crop',
     cropToolDescription:

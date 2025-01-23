@@ -1,15 +1,9 @@
 'use client'
 
-import type {
-  ClientCollectionConfig,
-  ClientGlobalConfig,
-  ClientSideEditViewProps,
-  ClientUser,
-  FormState,
-} from 'payload'
+import type { ClientSideEditViewProps, ClientUser, FormState } from 'payload'
 
 import { useRouter, useSearchParams } from 'next/navigation.js'
-import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { FormProps } from '../../forms/Form/index.js'
 import type { LockedState } from '../../utilities/buildFormState.js'
@@ -109,8 +103,8 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
     getEntityConfig,
   } = useConfig()
 
-  const collectionConfig = getEntityConfig({ collectionSlug }) as ClientCollectionConfig
-  const globalConfig = getEntityConfig({ globalSlug }) as ClientGlobalConfig
+  const collectionConfig = getEntityConfig({ collectionSlug })
+  const globalConfig = getEntityConfig({ globalSlug })
 
   const depth = useEditDepth()
 
@@ -179,13 +173,7 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
     classes.push(`collection-edit--${collectionSlug}`)
   }
 
-  const [schemaPathSegments, setSchemaPathSegments] = useState(() => {
-    if (operation === 'create' && auth && !auth.disableLocalStrategy) {
-      return [`_${entitySlug}`, 'auth']
-    }
-
-    return [entitySlug]
-  })
+  const schemaPathSegments = useMemo(() => [entitySlug], [entitySlug])
 
   const [validateBeforeSubmit, setValidateBeforeSubmit] = useState(() => {
     if (operation === 'create' && auth && !auth.disableLocalStrategy) {
@@ -231,10 +219,12 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
     async (json): Promise<FormState> => {
       const controller = handleAbortRef(abortOnSaveRef)
 
+      const document = json?.doc || json?.result
+
       reportUpdate({
         id,
         entitySlug,
-        updatedAt: json?.result?.updatedAt || new Date().toISOString(),
+        updatedAt: document?.updatedAt || new Date().toISOString(),
       })
 
       // If we're editing the doc of the logged-in user,
@@ -246,13 +236,19 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
       incrementVersionCount()
 
       if (typeof updateSavedDocumentData === 'function') {
-        void updateSavedDocumentData(json?.doc || {})
+        void updateSavedDocumentData(document || {})
       }
 
       if (typeof onSaveFromContext === 'function') {
+        const operation = id ? 'update' : 'create'
+
         void onSaveFromContext({
           ...json,
-          operation: id ? 'update' : 'create',
+          operation,
+          updatedAt:
+            operation === 'update'
+              ? new Date().toISOString()
+              : document?.updatedAt || new Date().toISOString(),
         })
       }
 
@@ -260,7 +256,7 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
         // Redirect to the same locale if it's been set
         const redirectRoute = formatAdminURL({
           adminRoute,
-          path: `/collections/${collectionSlug}/${json?.doc?.id}${locale ? `?locale=${locale}` : ''}`,
+          path: `/collections/${collectionSlug}/${document?.id}${locale ? `?locale=${locale}` : ''}`,
         })
         router.push(redirectRoute)
       } else {
@@ -275,7 +271,7 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
         const { state } = await getFormState({
           id,
           collectionSlug,
-          data: json?.doc || json?.result,
+          data: document,
           docPermissions,
           docPreferences,
           globalSlug,
@@ -297,32 +293,32 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
       }
     },
     [
-      adminRoute,
-      collectionSlug,
-      depth,
-      docPermissions,
+      reportUpdate,
+      id,
       entitySlug,
+      user,
+      collectionSlug,
+      userSlug,
+      incrementVersionCount,
+      updateSavedDocumentData,
+      onSaveFromContext,
+      isEditing,
+      depth,
       getDocPermissions,
+      globalSlug,
+      autosaveEnabled,
+      refreshCookieAsync,
+      adminRoute,
+      locale,
+      router,
+      resetUploadEdits,
       getDocPreferences,
       getFormState,
-      globalSlug,
-      id,
-      incrementVersionCount,
-      isEditing,
-      isLockingEnabled,
-      locale,
-      onSaveFromContext,
+      docPermissions,
       operation,
-      refreshCookieAsync,
-      reportUpdate,
-      resetUploadEdits,
-      router,
       schemaPathSegments,
+      isLockingEnabled,
       setDocumentIsLocked,
-      updateSavedDocumentData,
-      user,
-      userSlug,
-      autosaveEnabled,
     ],
   )
 
@@ -557,7 +553,6 @@ export const DefaultEditView: React.FC<ClientSideEditViewProps> = ({
                       operation={operation}
                       readOnly={!hasSavePermission}
                       requirePassword={!id}
-                      setSchemaPathSegments={setSchemaPathSegments}
                       setValidateBeforeSubmit={setValidateBeforeSubmit}
                       useAPIKey={auth.useAPIKey}
                       username={savedDocumentData?.username}

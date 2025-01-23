@@ -239,6 +239,7 @@ export const svTranslations: DefaultTranslationsObject = {
     duplicate: 'Duplicera',
     duplicateWithoutSaving: 'Duplicera utan att spara ändringar',
     edit: 'Redigera',
+    editAll: 'Redigera alla',
     editedSince: 'Redigerad sedan',
     editing: 'Redigerar',
     editingLabel_many: 'Redigerar {{count}} {{label}}',
@@ -299,6 +300,10 @@ export const svTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Omindexerar alla {{collections}}.',
     remove: 'Ta bort',
     reset: 'Återställ',
+    resetPreferences: 'Återställ preferenser',
+    resetPreferencesDescription:
+      'Detta kommer att återställa alla dina preferenser till standardinställningarna.',
+    resettingPreferences: 'Återställer preferenser.',
     row: 'Rad',
     rows: 'Rader',
     save: 'Spara',

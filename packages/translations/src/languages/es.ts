@@ -243,6 +243,7 @@ export const esTranslations: DefaultTranslationsObject = {
     duplicate: 'Duplicar',
     duplicateWithoutSaving: 'Duplicar sin guardar cambios',
     edit: 'Editar',
+    editAll: 'Editar Todo',
     editedSince: 'Editado desde',
     editing: 'Editando',
     editingLabel_many: 'Edición de {{count}} {{label}}',
@@ -303,6 +304,10 @@ export const esTranslations: DefaultTranslationsObject = {
     reindexingAll: 'Reindexando todas las {{collections}}.',
     remove: 'Remover',
     reset: 'Reiniciar',
+    resetPreferences: 'Restablecer preferencias',
+    resetPreferencesDescription:
+      'Esto restablecerá todas tus preferencias a la configuración predeterminada.',
+    resettingPreferences: 'Restableciendo preferencias.',
     row: 'Fila',
     rows: 'Filas',
     save: 'Guardar',
