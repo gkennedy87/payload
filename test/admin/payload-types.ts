@@ -6,12 +6,69 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
   };
+  blocks: {};
   collections: {
     uploads: Upload;
+    'uploads-two': UploadsTwo;
     posts: Post;
     users: User;
     'hidden-collection': HiddenCollection;
@@ -26,8 +83,10 @@ export interface Config {
     'group-two-collection-twos': GroupTwoCollectionTwo;
     geo: Geo;
     'disable-duplicate': DisableDuplicate;
+    'disable-copy-to-locale': DisableCopyToLocale;
     'base-list-filters': BaseListFilter;
     with300documents: With300Document;
+    'with-list-drawer': WithListDrawer;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -35,6 +94,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     uploads: UploadsSelect<false> | UploadsSelect<true>;
+    'uploads-two': UploadsTwoSelect<false> | UploadsTwoSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'hidden-collection': HiddenCollectionSelect<false> | HiddenCollectionSelect<true>;
@@ -49,8 +109,10 @@ export interface Config {
     'group-two-collection-twos': GroupTwoCollectionTwosSelect<false> | GroupTwoCollectionTwosSelect<true>;
     geo: GeoSelect<false> | GeoSelect<true>;
     'disable-duplicate': DisableDuplicateSelect<false> | DisableDuplicateSelect<true>;
+    'disable-copy-to-locale': DisableCopyToLocaleSelect<false> | DisableCopyToLocaleSelect<true>;
     'base-list-filters': BaseListFiltersSelect<false> | BaseListFiltersSelect<true>;
     with300documents: With300DocumentsSelect<false> | With300DocumentsSelect<true>;
+    'with-list-drawer': WithListDrawerSelect<false> | WithListDrawerSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -137,6 +199,25 @@ export interface Upload {
   };
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uploads-two".
+ */
+export interface UploadsTwo {
+  id: string;
+  title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * This is a custom collection description.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -152,32 +233,8 @@ export interface Post {
         [k: string]: unknown;
       }[]
     | null;
-  arrayOfFields?:
-    | {
-        optional?: string | null;
-        innerArrayOfFields?:
-          | {
-              innerOptional?: string | null;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
-  group?: {
-    defaultValueField?: string | null;
-    title?: string | null;
-  };
-  someBlock?:
-    | {
-        textFieldForBlock?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'textBlock';
-      }[]
-    | null;
-  defaultValueField?: string | null;
   relationship?: (string | null) | Post;
+  users?: (string | null) | User;
   customCell?: string | null;
   upload?: (string | null) | Upload;
   hiddenField?: string | null;
@@ -188,6 +245,9 @@ export interface Post {
    * This is a very long description that takes many characters to complete and hopefully will wrap instead of push the sidebar open, lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum voluptates. Quisquam, voluptatum voluptates.
    */
   sidebarField?: string | null;
+  wavelengths?: ('fm' | 'am') | null;
+  selectField?: ('option1' | 'option2')[] | null;
+  file?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -272,12 +332,10 @@ export interface CustomField {
    * Static field description.
    */
   descriptionAsString?: string | null;
-  /**
-   * Function description
-   */
   descriptionAsFunction?: string | null;
   descriptionAsComponent?: string | null;
   customSelectField?: string | null;
+  customSelectInput?: string | null;
   relationshipFieldWithBeforeAfterInputs?: (string | null) | Post;
   arrayFieldWithBeforeAfterInputs?:
     | {
@@ -368,6 +426,16 @@ export interface DisableDuplicate {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disable-copy-to-locale".
+ */
+export interface DisableCopyToLocale {
+  id: string;
+  title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "base-list-filters".
  */
 export interface BaseListFilter {
@@ -389,6 +457,18 @@ export interface With300Document {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "with-list-drawer".
+ */
+export interface WithListDrawer {
+  id: string;
+  title?: string | null;
+  description?: string | null;
+  number?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -397,6 +477,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'uploads';
         value: string | Upload;
+      } | null)
+    | ({
+        relationTo: 'uploads-two';
+        value: string | UploadsTwo;
       } | null)
     | ({
         relationTo: 'posts';
@@ -455,12 +539,20 @@ export interface PayloadLockedDocument {
         value: string | DisableDuplicate;
       } | null)
     | ({
+        relationTo: 'disable-copy-to-locale';
+        value: string | DisableCopyToLocale;
+      } | null)
+    | ({
         relationTo: 'base-list-filters';
         value: string | BaseListFilter;
       } | null)
     | ({
         relationTo: 'with300documents';
         value: string | With300Document;
+      } | null)
+    | ({
+        relationTo: 'with-list-drawer';
+        value: string | WithListDrawer;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -538,6 +630,24 @@ export interface UploadsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uploads-two_select".
+ */
+export interface UploadsTwoSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -545,37 +655,8 @@ export interface PostsSelect<T extends boolean = true> {
   description?: T;
   number?: T;
   richText?: T;
-  arrayOfFields?:
-    | T
-    | {
-        optional?: T;
-        innerArrayOfFields?:
-          | T
-          | {
-              innerOptional?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  group?:
-    | T
-    | {
-        defaultValueField?: T;
-        title?: T;
-      };
-  someBlock?:
-    | T
-    | {
-        textBlock?:
-          | T
-          | {
-              textFieldForBlock?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
-  defaultValueField?: T;
   relationship?: T;
+  users?: T;
   customCell?: T;
   upload?: T;
   hiddenField?: T;
@@ -583,6 +664,9 @@ export interface PostsSelect<T extends boolean = true> {
   disableListColumnText?: T;
   disableListFilterText?: T;
   sidebarField?: T;
+  wavelengths?: T;
+  selectField?: T;
+  file?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -659,6 +743,7 @@ export interface CustomFieldsSelect<T extends boolean = true> {
   descriptionAsFunction?: T;
   descriptionAsComponent?: T;
   customSelectField?: T;
+  customSelectInput?: T;
   relationshipFieldWithBeforeAfterInputs?: T;
   arrayFieldWithBeforeAfterInputs?:
     | T
@@ -744,6 +829,15 @@ export interface DisableDuplicateSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disable-copy-to-locale_select".
+ */
+export interface DisableCopyToLocaleSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "base-list-filters_select".
  */
 export interface BaseListFiltersSelect<T extends boolean = true> {
@@ -758,6 +852,17 @@ export interface BaseListFiltersSelect<T extends boolean = true> {
 export interface With300DocumentsSelect<T extends boolean = true> {
   text?: T;
   selfRelation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "with-list-drawer_select".
+ */
+export interface WithListDrawerSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  number?: T;
   updatedAt?: T;
   createdAt?: T;
 }

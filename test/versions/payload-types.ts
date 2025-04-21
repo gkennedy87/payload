@@ -6,19 +6,81 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
   };
+  blocks: {};
   collections: {
     'disable-publish': DisablePublish;
     posts: Post;
     'autosave-posts': AutosavePost;
+    'autosave-with-draft-button-posts': AutosaveWithDraftButtonPost;
+    'autosave-with-validate-posts': AutosaveWithValidatePost;
     'draft-posts': DraftPost;
     'draft-with-max-posts': DraftWithMaxPost;
+    'draft-with-validate-posts': DraftWithValidatePost;
     'localized-posts': LocalizedPost;
     'version-posts': VersionPost;
     'custom-ids': CustomId;
+    diff: Diff;
+    text: Text;
+    media: Media;
     users: User;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -30,11 +92,17 @@ export interface Config {
     'disable-publish': DisablePublishSelect<false> | DisablePublishSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     'autosave-posts': AutosavePostsSelect<false> | AutosavePostsSelect<true>;
+    'autosave-with-draft-button-posts': AutosaveWithDraftButtonPostsSelect<false> | AutosaveWithDraftButtonPostsSelect<true>;
+    'autosave-with-validate-posts': AutosaveWithValidatePostsSelect<false> | AutosaveWithValidatePostsSelect<true>;
     'draft-posts': DraftPostsSelect<false> | DraftPostsSelect<true>;
     'draft-with-max-posts': DraftWithMaxPostsSelect<false> | DraftWithMaxPostsSelect<true>;
+    'draft-with-validate-posts': DraftWithValidatePostsSelect<false> | DraftWithValidatePostsSelect<true>;
     'localized-posts': LocalizedPostsSelect<false> | LocalizedPostsSelect<true>;
     'version-posts': VersionPostsSelect<false> | VersionPostsSelect<true>;
     'custom-ids': CustomIdsSelect<false> | CustomIdsSelect<true>;
+    diff: DiffSelect<false> | DiffSelect<true>;
+    text: TextSelect<false> | TextSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -46,6 +114,7 @@ export interface Config {
   };
   globals: {
     'autosave-global': AutosaveGlobal;
+    'autosave-with-draft-button-global': AutosaveWithDraftButtonGlobal;
     'draft-global': DraftGlobal;
     'draft-with-max-global': DraftWithMaxGlobal;
     'disable-publish-global': DisablePublishGlobal;
@@ -53,6 +122,7 @@ export interface Config {
   };
   globalsSelect: {
     'autosave-global': AutosaveGlobalSelect<false> | AutosaveGlobalSelect<true>;
+    'autosave-with-draft-button-global': AutosaveWithDraftButtonGlobalSelect<false> | AutosaveWithDraftButtonGlobalSelect<true>;
     'draft-global': DraftGlobalSelect<false> | DraftGlobalSelect<true>;
     'draft-with-max-global': DraftWithMaxGlobalSelect<false> | DraftWithMaxGlobalSelect<true>;
     'disable-publish-global': DisablePublishGlobalSelect<false> | DisablePublishGlobalSelect<true>;
@@ -164,6 +234,28 @@ export interface DraftPost {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-draft-button-posts".
+ */
+export interface AutosaveWithDraftButtonPost {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-validate-posts".
+ */
+export interface AutosaveWithValidatePost {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "draft-with-max-posts".
  */
 export interface DraftWithMaxPost {
@@ -188,6 +280,17 @@ export interface DraftWithMaxPost {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "draft-with-validate-posts".
+ */
+export interface DraftWithValidatePost {
+  id: string;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "localized-posts".
  */
 export interface LocalizedPost {
@@ -205,6 +308,136 @@ export interface LocalizedPost {
 export interface CustomId {
   id: string;
   title?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "diff".
+ */
+export interface Diff {
+  id: string;
+  array?:
+    | {
+        textInArray?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  arrayLocalized?:
+    | {
+        textInArrayLocalized?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  blocks?:
+    | (
+        | {
+            textInBlock?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'TextBlock';
+          }
+        | {
+            textInCollapsibleInCollapsibleBlock?: string | null;
+            textInRowInCollapsibleBlock?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'CollapsibleBlock';
+          }
+        | {
+            namedTab1InBlock?: {
+              textInNamedTab1InBlock?: string | null;
+            };
+            textInUnnamedTab2InBlock?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'TabsBlock';
+          }
+      )[]
+    | null;
+  checkbox?: boolean | null;
+  code?: string | null;
+  textInCollapsible?: string | null;
+  date?: string | null;
+  email?: string | null;
+  group?: {
+    textInGroup?: string | null;
+  };
+  number?: number | null;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  point?: [number, number] | null;
+  radio?: ('option1' | 'option2') | null;
+  relationship?: (string | null) | DraftPost;
+  richtext?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  richtextWithCustomDiff?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  textInRow?: string | null;
+  select?: ('option1' | 'option2') | null;
+  namedTab1?: {
+    textInNamedTab1?: string | null;
+  };
+  textInUnnamedTab2?: string | null;
+  text?: string | null;
+  textArea?: string | null;
+  upload?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "text".
+ */
+export interface Text {
+  id: string;
+  text: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -337,12 +570,24 @@ export interface PayloadLockedDocument {
         value: string | AutosavePost;
       } | null)
     | ({
+        relationTo: 'autosave-with-draft-button-posts';
+        value: string | AutosaveWithDraftButtonPost;
+      } | null)
+    | ({
+        relationTo: 'autosave-with-validate-posts';
+        value: string | AutosaveWithValidatePost;
+      } | null)
+    | ({
         relationTo: 'draft-posts';
         value: string | DraftPost;
       } | null)
     | ({
         relationTo: 'draft-with-max-posts';
         value: string | DraftWithMaxPost;
+      } | null)
+    | ({
+        relationTo: 'draft-with-validate-posts';
+        value: string | DraftWithValidatePost;
       } | null)
     | ({
         relationTo: 'localized-posts';
@@ -355,6 +600,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'custom-ids';
         value: string | CustomId;
+      } | null)
+    | ({
+        relationTo: 'diff';
+        value: string | Diff;
+      } | null)
+    | ({
+        relationTo: 'text';
+        value: string | Text;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'users';
@@ -440,6 +697,26 @@ export interface AutosavePostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-draft-button-posts_select".
+ */
+export interface AutosaveWithDraftButtonPostsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-validate-posts_select".
+ */
+export interface AutosaveWithValidatePostsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "draft-posts_select".
  */
 export interface DraftPostsSelect<T extends boolean = true> {
@@ -493,6 +770,16 @@ export interface DraftWithMaxPostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "draft-with-validate-posts_select".
+ */
+export interface DraftWithValidatePostsSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "localized-posts_select".
  */
 export interface LocalizedPostsSelect<T extends boolean = true> {
@@ -521,6 +808,110 @@ export interface CustomIdsSelect<T extends boolean = true> {
   title?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "diff_select".
+ */
+export interface DiffSelect<T extends boolean = true> {
+  array?:
+    | T
+    | {
+        textInArray?: T;
+        id?: T;
+      };
+  arrayLocalized?:
+    | T
+    | {
+        textInArrayLocalized?: T;
+        id?: T;
+      };
+  blocks?:
+    | T
+    | {
+        TextBlock?:
+          | T
+          | {
+              textInBlock?: T;
+              id?: T;
+              blockName?: T;
+            };
+        CollapsibleBlock?:
+          | T
+          | {
+              textInCollapsibleInCollapsibleBlock?: T;
+              textInRowInCollapsibleBlock?: T;
+              id?: T;
+              blockName?: T;
+            };
+        TabsBlock?:
+          | T
+          | {
+              namedTab1InBlock?:
+                | T
+                | {
+                    textInNamedTab1InBlock?: T;
+                  };
+              textInUnnamedTab2InBlock?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  checkbox?: T;
+  code?: T;
+  textInCollapsible?: T;
+  date?: T;
+  email?: T;
+  group?:
+    | T
+    | {
+        textInGroup?: T;
+      };
+  number?: T;
+  point?: T;
+  radio?: T;
+  relationship?: T;
+  richtext?: T;
+  richtextWithCustomDiff?: T;
+  textInRow?: T;
+  select?: T;
+  namedTab1?:
+    | T
+    | {
+        textInNamedTab1?: T;
+      };
+  textInUnnamedTab2?: T;
+  text?: T;
+  textArea?: T;
+  upload?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "text_select".
+ */
+export interface TextSelect<T extends boolean = true> {
+  text?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -613,6 +1004,17 @@ export interface AutosaveGlobal {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-draft-button-global".
+ */
+export interface AutosaveWithDraftButtonGlobal {
+  id: string;
+  title: string;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "draft-global".
  */
 export interface DraftGlobal {
@@ -661,6 +1063,17 @@ export interface LocalizedGlobal {
  * via the `definition` "autosave-global_select".
  */
 export interface AutosaveGlobalSelect<T extends boolean = true> {
+  title?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "autosave-with-draft-button-global_select".
+ */
+export interface AutosaveWithDraftButtonGlobalSelect<T extends boolean = true> {
   title?: T;
   _status?: T;
   updatedAt?: T;
@@ -720,10 +1133,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'draft-posts';
-      value: string | DraftPost;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'autosave-posts';
+          value: string | AutosavePost;
+        } | null)
+      | ({
+          relationTo: 'draft-posts';
+          value: string | DraftPost;
+        } | null);
     global?: 'draft-global' | null;
     user?: (string | null) | User;
   };
